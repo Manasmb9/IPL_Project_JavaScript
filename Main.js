@@ -9,6 +9,7 @@ deliveries = csvToJson.fieldDelimiter(',').formatValueByType().getJsonFromCsv("/
 
 function findMatchesPlayedPerYear(matches){
     const matchesPerYear = new Map();
+    
     for(match of matches){
         if(matchesPerYear.has(match.season)){
             matchesPerYear.set(match.season, matchesPerYear.get(match.season) + 1);
@@ -19,6 +20,7 @@ function findMatchesPlayedPerYear(matches){
     }
     return matchesPerYear;
 }
+
 console.log(findMatchesPlayedPerYear(matches));
 
 
@@ -40,6 +42,7 @@ function matchesWonPerTeamPerYear(matches){
     }
      return wonPerTeam;
 }
+
  console.log(matchesWonPerTeamPerYear(matches));
 
 
@@ -47,6 +50,7 @@ function matchesWonPerTeamPerYear(matches){
     const extraRunsPerTeam = new Map();
     firstmatchid = 0;
     lastmatchid = 0;
+
     for(match of matches){
         if(match.season == 2016){
             if(firstmatchid == 0){
@@ -55,6 +59,7 @@ function matchesWonPerTeamPerYear(matches){
             lastmatchid = match.id;
         }
     }
+
     for(delivery of deliveries){
         if(delivery.match_id>= firstmatchid && delivery.match_id <= lastmatchid){
             if(extraRunsPerTeam.has(delivery.bowling_team)){
@@ -67,6 +72,7 @@ function matchesWonPerTeamPerYear(matches){
     }
     return extraRunsPerTeam;
  }
+
  console.log(extraRunsConcededPerTeam(matches,deliveries));
  
 function economy(matches, deliveries, n){
@@ -84,6 +90,7 @@ function economy(matches, deliveries, n){
             lastmatchid = match.id;
         }
     }
+
     for(delivery of deliveries){
         if(delivery.match_id>=firstmatchid && delivery.match_id<=lastmatchid){
             if(bowlscount.has(delivery.bowler)){
@@ -100,6 +107,7 @@ function economy(matches, deliveries, n){
             }
         }
     }
+
     for(bowler of bowlerruns.keys()){
         economicBowlerValue = (bowlerruns.get(bowler) * 6.0 / bowlscount.get(bowler));
         economicbowler.set(bowler , economicBowlerValue);
@@ -110,4 +118,5 @@ function economy(matches, deliveries, n){
     console.log(topTenEconomicBowlers);
     }
 }
+
 economy(matches, deliveries, 10);
