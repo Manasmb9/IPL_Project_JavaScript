@@ -6,6 +6,7 @@ let deliveries = [];
 matches = csvToJson.fieldDelimiter(',').formatValueByType().getJsonFromCsv("/home/dell/Downloads/matches.csv");
 deliveries = csvToJson.fieldDelimiter(',').formatValueByType().getJsonFromCsv("/home/dell/Downloads/deliveries.csv");
 
+
 function findMatchesPlayedPerYear(matches){
     const matchesPerYear = new Map();
     for(match of matches){
@@ -19,6 +20,7 @@ function findMatchesPlayedPerYear(matches){
     return matchesPerYear;
 }
 console.log(findMatchesPlayedPerYear(matches));
+
 
 function matchesWonPerTeamPerYear(matches){
     let wonPerTeam = new Map();
@@ -69,7 +71,7 @@ function matchesWonPerTeamPerYear(matches){
  
 function economy(matches, deliveries, n){
     const bowlerruns = new Map();
-    const bowlcount = new Map();
+    const bowlscount = new Map();
     let economicbowler = new Map();
     
     firstmatchid = 0;
@@ -84,11 +86,11 @@ function economy(matches, deliveries, n){
     }
     for(delivery of deliveries){
         if(delivery.match_id>=firstmatchid && delivery.match_id<=lastmatchid){
-            if(bowlcount.has(delivery.bowler)){
-                bowlcount.set(delivery.bowler, bowlcount.get(delivery.bowler) + 1); 
+            if(bowlscount.has(delivery.bowler)){
+                bowlscount.set(delivery.bowler, bowlscount.get(delivery.bowler) + 1); 
             }
             else{
-                bowlcount.set(delivery.bowler , 1)
+                bowlscount.set(delivery.bowler , 1)
             }
             if(bowlerruns.has(delivery.bowler)){
                 bowlerruns.set(delivery.bowler, bowlerruns.get(delivery.bowler)+delivery.total_runs);
@@ -99,12 +101,13 @@ function economy(matches, deliveries, n){
         }
     }
     for(bowler of bowlerruns.keys()){
-        economicBowlerValue = (bowlerruns.get(bowler) * 6.0 / bowlcount.get(bowler));
+        economicBowlerValue = (bowlerruns.get(bowler) * 6.0 / bowlscount.get(bowler));
         economicbowler.set(bowler , economicBowlerValue);
     }
-    const sortedAsc = new Map([...economicbowler].sort((a, b) => (a[1] > b[1] ? 1 : -1)));
+    const economicBowlerOrder = new Map([...economicbowler].sort((a, b) => (a[1] > b[1] ? 1 : -1)));
     for (let i = 0; i < n; i++){
-    console.log([...sortedAsc][i]);
+    topTenEconomicBowlers = [...economicBowlerOrder][i];
+    console.log(topTenEconomicBowlers);
     }
 }
 economy(matches, deliveries, 10);
