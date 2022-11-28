@@ -38,9 +38,9 @@ function matchesWonPerTeamPerYear(matches){
             wonPerTeam.set(match.season, new Map().set(match.winner,1));
         }
     }
-     console.log(wonPerTeam);
+     return wonPerTeam;
 }
- matchesWonPerTeamPerYear(matches);
+ console.log(matchesWonPerTeamPerYear(matches));
 
 
  function extraRunsConcededPerTeam(matches , deliveries){
